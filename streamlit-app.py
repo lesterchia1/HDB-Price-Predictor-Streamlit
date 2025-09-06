@@ -89,12 +89,33 @@ def create_dummy_model(model_type):
 
 @st.cache_resource
 def load_model_from_file(filename="best_model_xgboost1.joblib"):
-    """Load model from local file with error handling"""
+    
+    """Load model from local file with error handling. Download from GitHub if missing."""
+    url = "https://github.com/lesterchia1/HDB-Price-Predictor-Streamlit/raw/main/best_model_xgboost1.joblib"
+
+    
     try:
+
+        # Download if file doesn't exist
+        if not os.path.exists(filename):
+            st.info(f"⚠️ Model file {filename} not found locally. Downloading from GitHub...")
+            r = requests.get(url, allow_redirects=True)
+            if r.status_code == 200:
+                with open(filename, 'wb') as f:
+                    f.write(r.content)
+                st.success(f"✅ Downloaded {filename} successfully")
+            else:
+                st.error(f"❌ Failed to download model: HTTP {r.status_code}")
+                return create_dummy_model("xgboost")
+
+
+
+        # Try loading the model
         if os.path.exists(filename):
             model = joblib.load(filename)
             st.success(f"✅ Successfully loaded model from {filename}")
-            
+
+        # Add missing methods if needed    
             if not hasattr(model, 'predict'):
                 st.error("❌ Loaded object doesn't have predict method")
                 return create_dummy_model("xgboost")
