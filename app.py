@@ -88,7 +88,7 @@ def create_dummy_model(model_type):
     return RealisticDummyModel(model_type)()
 
 @st.cache_resource
-def load_model_from_file(filename="best_model_xgboost1.joblib"):
+def load_model_from_file(filename="best_model_xgboost.joblib"):
     """Load model from local file with error handling"""
     try:
         if os.path.exists(filename):
