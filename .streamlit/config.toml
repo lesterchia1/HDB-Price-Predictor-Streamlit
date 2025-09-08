@@ -4,6 +4,3 @@ maxUploadSize = 1000
 [global]
 developmentMode = false
 
-# Force Python 3.10 compatibility
-#[python]
-#version = "3.10"
