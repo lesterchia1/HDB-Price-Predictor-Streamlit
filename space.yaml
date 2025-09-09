@@ -1,0 +1,2 @@
+sdk: docker
+docker_image: lesterchia74/streamlit-app:latest
